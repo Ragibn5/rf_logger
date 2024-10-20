@@ -1,0 +1,32 @@
+name: rf_logger
+description: Powerful multi-destination logging for Flutter. Chain console, file, and custom loggers with flexible formatting and filtering support.
+version: 0.0.1
+homepage: https://github.com/Ragibn5/rf_logger.git
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # intl
+  intl: any
+
+  # custom dependencies
+  async_task_queue:
+    git:
+      url: https://github.com/Ragibn5/async_task_queue.git
+      ref: v0.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# Flutter intl config.
+flutter_intl:
+  enabled: false
