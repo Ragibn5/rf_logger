@@ -1,7 +1,6 @@
 import 'package:async_task_queue/async_task_queue.dart';
 import 'package:rf_logger/src/clients/log_client.dart';
 import 'package:rf_logger/src/constants/log_level.dart';
-import 'package:rf_logger/src/extensions/string_extensions.dart';
 import 'package:rf_logger/src/models/log_data.dart';
 
 export 'src/clients/console_logger/console_logger.dart';
@@ -57,17 +56,12 @@ class RfLogger with AsyncTaskQueue {
     String message, {
     dynamic errorData,
     StackTrace? stackTrace,
-    int errorDataLineLimit = (2 << 10),
   }) {
-    final originalErrorString = errorData?.toString();
-    final cappedErrorString =
-        originalErrorString?.getFirstNLine(lineCount: errorDataLineLimit);
-
     log(
       LogLevel.error,
       message: message,
+      data: errorData,
       stackTrace: stackTrace,
-      data: cappedErrorString,
     );
   }
 
