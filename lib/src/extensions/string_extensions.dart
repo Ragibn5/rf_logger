@@ -11,13 +11,19 @@ extension NullableStringExtension on String? {
 extension NonNullStringExtension on String {
   bool get isEmptyOrBlank => trim().isEmpty;
 
+  bool get isMultiline => contains(PlatformConstants.newLine);
+
   bool containsIgnoreCase(String another) =>
       toUpperCase().contains(another.toUpperCase());
 
   int compareToIgnoreCase(String another) =>
       toUpperCase().compareTo(another.toUpperCase());
 
-  String getFirstNLine({int lineCount = 2}) {
+  String getFirstLine() {
+    return getFirstNLine(lineCount: 1);
+  }
+
+  String getFirstNLine({int lineCount = 2 << 10}) {
     final splits = split(PlatformConstants.newLine);
     final takenLines = splits.take(lineCount);
     return takenLines.isNotEmpty

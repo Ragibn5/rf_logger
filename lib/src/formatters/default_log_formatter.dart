@@ -18,26 +18,24 @@ class DefaultLogFormatter extends LogFormatter {
   String formatLevel(LogLevel logLevel) {
     switch (logLevel) {
       case LogLevel.debug:
-        return "D";
+        return "DEBUG";
       case LogLevel.info:
-        return "I";
+        return "INFO";
       case LogLevel.warning:
-        return "W";
+        return "WARNING";
       case LogLevel.error:
-        return "E";
+        return "ERROR";
     }
   }
 
   @override
   String? formatData(
-    data, {
+    Object? data, {
     required bool prettyPrint,
   }) {
-    if (!prettyPrint) {
-      return data.toString();
+    if (data == null) {
+      return null;
     }
-
-    return JsonEncoder.withIndent("  ", (original) => original.toString())
-        .convert(data);
+    return JsonEncoder.withIndent(prettyPrint ? "  " : null).convert(data);
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:rf_logger/src/clients/log_client.dart';
-import 'package:rf_logger/src/formatters/default_log_formatter.dart';
+import 'package:rf_logger/src/formatters/log_formatter.dart';
 import 'package:rf_logger/src/models/log_data.dart';
 
 class ConsoleLogger extends LogClient {
   static const ID = "console";
 
-  ConsoleLogger({required DefaultLogFormatter logFormatter})
+  ConsoleLogger({required LogFormatter logFormatter})
       : super(clientId: ID, logFormatter: logFormatter);
 
   @override
