@@ -55,19 +55,19 @@ class RfLogger with AsyncTaskQueue {
   /// (string representation) as large as possible.
   void logError(
     String message, {
-    Object? errorData,
+    dynamic errorData,
     StackTrace? stackTrace,
-    int errorDataLineLimit = 2,
+    int errorDataLineLimit = (2 << 10),
   }) {
     final originalErrorString = errorData?.toString();
-    final cappedErrorString = errorDataLineLimit <= 0
-        ? originalErrorString
-        : originalErrorString?.getFirstNLine(lineCount: errorDataLineLimit);
+    final cappedErrorString =
+        originalErrorString?.getFirstNLine(lineCount: errorDataLineLimit);
+
     log(
       LogLevel.error,
       message: message,
-      data: "${cappedErrorString.nullOnEmptyOrBlank ?? ''}"
-          "${stackTrace != null ? '$stackTrace' : ''}",
+      stackTrace: stackTrace,
+      data: cappedErrorString,
     );
   }
 
@@ -79,6 +79,7 @@ class RfLogger with AsyncTaskQueue {
     LogLevel logLevel, {
     required String message,
     dynamic data,
+    StackTrace? stackTrace,
   }) {
     if (_enabledLevelsMap[logLevel] == false) {
       return;
@@ -94,6 +95,7 @@ class RfLogger with AsyncTaskQueue {
                 time: timeStamp,
                 level: logLevel,
                 message: message,
+                stackTrace: stackTrace,
                 data: data,
               ),
             );
@@ -103,7 +105,7 @@ class RfLogger with AsyncTaskQueue {
           print(
             '\n*** RF-LOGGER ***'
             '\nFailed to log.'
-            '\n${st.toString()}',
+            '\n$st',
           );
         },
       ),

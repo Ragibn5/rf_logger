@@ -21,20 +21,20 @@ abstract class LogFormatter {
   String formatLevel(LogLevel logLevel);
 
   @protected
-  String? formatData(dynamic data, {required bool prettyPrint});
+  String? formatData(Object? data, {required bool prettyPrint});
 
   String getFormattedLog(LogData logData) {
     final ls = PlatformConstants.newLine;
 
-    var msg = logData.message.trim();
-    msg = (msg.isNotEmpty ? msg : "N/A");
+    final msg = logData.message.trim().nullOnEmptyOrBlank ?? '';
+    final stackTrace = logData.stackTrace?.toString().trim().nullOnEmptyOrBlank;
+    final data = formatData(logData.data, prettyPrint: prettyPrint)
+        ?.trim()
+        .nullOnEmptyOrBlank;
 
-    final extra =
-        formatData(logData.data, prettyPrint: prettyPrint)?.nullOnEmptyOrBlank;
-
-    return "[${formatStamp(logData.time)}] - "
-        "[${formatLevel(logData.level)}] ➜ "
-        "${msg.contains(ls) ? '$ls$msg$ls' : '$msg$ls'}"
-        "${extra != null ? '$extra$ls' : ''}";
+    return "\n[${formatStamp(logData.time)}] - [${formatLevel(logData.level)}] ➜"
+        "${msg.contains(ls) ? '$ls$msg$ls' : ' $msg$ls'}"
+        "${data != null ? ('[Data]: ${data.contains(ls) ? '$ls$data$ls' : '$data$ls'}') : ''}"
+        "${stackTrace != null ? ('[StackTrace]: ${stackTrace.contains(ls) ? '$ls$stackTrace$ls' : '$stackTrace$ls'}') : ''}";
   }
 }
