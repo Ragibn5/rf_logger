@@ -21,7 +21,7 @@ abstract class LogFormatter {
   String formatLevel(LogLevel logLevel);
 
   @protected
-  String? formatData(Object? data, {required bool prettyPrint});
+  String? formatData(dynamic data, {required bool prettyPrint});
 
   String getFormattedLog(LogData logData) {
     final ls = PlatformConstants.newLine;
