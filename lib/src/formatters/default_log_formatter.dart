@@ -30,13 +30,29 @@ class DefaultLogFormatter extends LogFormatter {
 
   @override
   String? formatData(dynamic data, {required bool prettyPrint}) {
-    if (data == null || data is String) {
-      return data;
+    if (!isJsonType(data)) {
+      return data.toString();
     }
 
     return JsonEncoder.withIndent(
       prettyPrint ? "  " : null,
       (original) => original.toString(),
     ).convert(data);
+  }
+
+  bool isJsonType(dynamic data) {
+    if (data == null || data is bool || data is num || data is String) {
+      return true;
+    }
+
+    if (data is List) {
+      return data.every(isJsonType);
+    }
+
+    if (data is Map<String, dynamic>) {
+      return data.values.every(isJsonType);
+    }
+
+    return false;
   }
 }
