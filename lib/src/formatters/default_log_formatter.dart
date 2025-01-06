@@ -29,12 +29,9 @@ class DefaultLogFormatter extends LogFormatter {
   }
 
   @override
-  String? formatData(
-    dynamic data, {
-    required bool prettyPrint,
-  }) {
-    if (data == null) {
-      return null;
+  String? formatData(dynamic data, {required bool prettyPrint}) {
+    if (data == null || data is String) {
+      return data;
     }
 
     return JsonEncoder.withIndent(
