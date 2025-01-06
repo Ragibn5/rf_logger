@@ -99,6 +99,7 @@ class RfLogger with AsyncTaskQueue {
           print(
             '\n*** RF-LOGGER ***'
             '\nFailed to log.'
+            '\n$e'
             '\n$st',
           );
         },
